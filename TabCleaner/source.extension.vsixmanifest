@@ -3,7 +3,7 @@
     <Metadata>
         <Identity Id="TabCleaner.9747f3dd-ca16-4980-83db-d3b73f6f3bc5" Version="1.0" Language="en-US" Publisher="Justinas Bikulcius" />
         <DisplayName>TabCleaner</DisplayName>
-        <Description xml:space="preserve">An extension for closing unused &amp; non-project related documents. It works by crawling through </Description>
+        <Description xml:space="preserve">An extension for closing unused &amp; non-project related documents. </Description>
         <GettingStartedGuide>README.txt</GettingStartedGuide>
         <ReleaseNotes>RELEASE.txt</ReleaseNotes>
         <Icon>Logo.png</Icon>

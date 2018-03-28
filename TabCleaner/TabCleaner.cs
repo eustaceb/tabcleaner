@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
+using System.Linq;
 using EnvDTE;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace TabCleaner
 {
@@ -122,36 +125,19 @@ namespace TabCleaner
             // Reset the local paths list
             m_localPaths = new List<string>();
 
-            var dteService = ServiceProvider.GetService(typeof(DTE)) as DTE;
+            // The following bit is taken from: https://stackoverflow.com/a/41052537
+            // Find all project files
+            IVsSolution sol = ServiceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+            uint numProjects;
+            ErrorHandler.ThrowOnFailure(sol.GetProjectFilesInSolution((uint)__VSGETPROJFILESFLAGS.GPFF_SKIPUNLOADEDPROJECTS, 0, null, out numProjects));
+            string[] projects = new string[numProjects];
+            ErrorHandler.ThrowOnFailure(sol.GetProjectFilesInSolution((uint)__VSGETPROJFILESFLAGS.GPFF_SKIPUNLOADEDPROJECTS, numProjects, projects, out numProjects));
+            // End of public wisdom
 
-            // Go through each project
-            foreach (Project pro in dteService.Solution.Projects)
+            // Get just the base dirs
+            for (int i = 0; i < projects.Length; i++)
             {
-                // Go through each property of the project
-                foreach (Property prop in pro.Properties)
-                {
-                    try
-                    {
-                        // And find the "ProjectDirectory" property.
-                        if (prop.Name != null && prop.Name.ToString().Equals("ProjectDirectory"))
-                        {
-                            if (prop.Value != null)
-                            {
-                                // If it's set to something sensible
-                                String strValue = prop.Value.ToString();
-                                if (!strValue.Equals(""))
-                                {
-                                    // Add it to list of local paths
-                                    m_localPaths.Add((new FileInfo(strValue).DirectoryName).ToString());
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        System.Diagnostics.Debug.WriteLine("Caught exception: " + e.Message);
-                    }
-                }
+                m_localPaths.Add(new FileInfo(projects[i]).Directory.ToString());
             }
         }
 
