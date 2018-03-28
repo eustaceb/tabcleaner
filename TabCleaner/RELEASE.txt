@@ -1,0 +1,3 @@
+﻿First release.
+Crawls through all open projects in the solution and closing files that are not local to these directories. 
+The LRU tab closing is not implemented yet and will follow next.
