@@ -54,7 +54,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="TabCleaner.cs" />
+    <Compile Include="CloseLRUCommand.cs" />
+    <Compile Include="DocumentListener.cs" />
+    <Compile Include="CloseExternalCommand.cs" />
     <Compile Include="TabCleanerPackage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -79,6 +81,7 @@
   <ItemGroup>
     <VSCTCompile Include="TabCleaner.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="index.html" />
     <Content Include="Logo.png">

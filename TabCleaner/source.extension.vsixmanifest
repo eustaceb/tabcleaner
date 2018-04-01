@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="TabCleaner.9747f3dd-ca16-4980-83db-d3b73f6f3bc5" Version="1.0" Language="en-US" Publisher="Justinas Bikulcius" />
+        <Identity Id="TabCleaner.9747f3dd-ca16-4980-83db-d3b73f6f3bc5" Version="1.1" Language="en-US" Publisher="Justinas Bikulcius" />
         <DisplayName>TabCleaner</DisplayName>
         <Description xml:space="preserve">An extension for closing unused &amp; non-project related documents. </Description>
         <GettingStartedGuide>README.txt</GettingStartedGuide>
         <ReleaseNotes>RELEASE.txt</ReleaseNotes>
         <Icon>Logo.png</Icon>
         <PreviewImage>Logo.png</PreviewImage>
-        <Tags>tab</Tags>
+        <Tags>tab management</Tags>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0]" />

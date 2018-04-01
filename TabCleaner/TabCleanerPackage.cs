@@ -1,27 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Settings;
+
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
 
 namespace TabCleaner
 {
+
     /// <summary>
     /// Option page for the extension.
     /// </summary>
     public class OptionPageGrid : DialogPage
     {
         private bool closeModified = false;
-
-        [Category("Basic settings")]
+        private bool closeLRU = false;
+        private uint noOfLRUDocs = 2;
+        
+        [Category("Common settings")]
         [DisplayName("Attempt to close modified documents")]
         [Description("If this is set to true, modified documents will be ignored. Otherwise, you will be prompted to save when closing.")]
         public bool CloseModified
@@ -29,6 +27,25 @@ namespace TabCleaner
             get { return closeModified; }
             set { closeModified = value; }
         }
+
+        //[Category("Least Recently Used options")]
+        //[DisplayName("Enable LRU closing")]
+        //[Description("If this is set to true, an extra option to close LRU documents will be added to the menu. REQUIRES RESTART")]
+        //public bool CloseLRU
+        //{
+        //    get { return closeLRU; }
+        //    set { closeLRU = value; }
+        //}
+
+        //[Category("Least Recently Used options")]
+        //[DisplayName("Number of documents to close")]
+        //[Description("Determines how many least recently used documents will be closed.")]
+        //public uint NoOfLRUDocuments
+        //{
+        //    get { return noOfLRUDocs; }
+        //    set { noOfLRUDocs = value; }
+        //}
+
     }
 
     /// <summary>
@@ -53,17 +70,19 @@ namespace TabCleaner
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(TabCleanerPackage.PackageGuidString)]
+    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideOptionPage(typeof(OptionPageGrid), "TabCleaner", "Basic settings", 0, 0, true)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class TabCleanerPackage : Package
     {
+
         /// <summary>
         /// CloseExternalPackage GUID string.
         /// </summary>
         public const string PackageGuidString = "c4a00f92-744c-40b4-a889-ef3baafd10b0";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TabCleaner"/> class.
+        /// Initializes a new instance of the <see cref="CloseExternalCommand"/> class.
         /// </summary>
         public TabCleanerPackage()
         {
@@ -85,7 +104,33 @@ namespace TabCleaner
             }
         }
 
+        ///// <summary>
+        ///// Returns a bool suggesting whether to provide the ability to close LRU documents.
+        ///// </summary>
+        //public bool CloseLRU
+        //{
+        //    get
+        //    {
+        //        OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+        //        return page.CloseLRU;
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Returns the number of least recently used documents to be closed.
+        ///// </summary>
+        //public uint NoOfLRUDocuments
+        //{
+        //    get
+        //    {
+        //        OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+        //        return page.NoOfLRUDocuments;
+        //    }
+        //}
+
         #region Package Members
+
+        DocumentListener m_docListener;
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -93,10 +138,24 @@ namespace TabCleaner
         /// </summary>
         protected override void Initialize()
         {
-            TabCleaner.Initialize(this);
             base.Initialize();
+            CloseExternalCommand.Initialize(this);
+
+            //if (CloseLRU)
+            //{
+            //    CloseLRUCommand.Initialize(this);
+            //    var rdt = (IVsRunningDocumentTable)Package.GetGlobalService(typeof(SVsRunningDocumentTable));
+            //    m_docListener = new DocumentListener(rdt);
+
+            //}
         }
 
+        public List<string> GetLRUDocs()
+        {
+            //if (m_docListener != null)
+            //    return m_docListener.GetLRUDocs(NoOfLRUDocuments);
+            return new List<string>();
+        }
         #endregion
     }
 }

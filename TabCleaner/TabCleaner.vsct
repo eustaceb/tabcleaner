@@ -22,7 +22,7 @@
 
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
-  <Commands package="guidCloseExternalPackage">
+  <Commands package="guidTabCleanerPackage">
     <!-- Inside this section we have different sub-sections: one for the menus, another
     for the menu groups, one for the buttons (the actual commands), one for the combos
     and the last one for the bitmaps used. Each element is identified by a command id that
@@ -36,8 +36,8 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidCloseExternalPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      <Group guid="guidTabCleanerPackageCmdSet" id="MyMenuGroup" priority="0x0100">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_EZDOCWINTAB"/>
       </Group>
     </Groups>
 
@@ -52,14 +52,23 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidCloseExternalPackageCmdSet" id="CloseExternalId" priority="0x0100" type="Button">
-        <Parent guid="guidCloseExternalPackageCmdSet" id="MyMenuGroup" />
+      <Button guid="guidTabCleanerPackageCmdSet" id="CloseExternalId" priority="0x0100" type="Button">
+        <Parent guid="guidTabCleanerPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Close external documents</ButtonText>
         </Strings>
       </Button>
-    </Buttons>
+
+      <!--<Button guid="guidTabCleanerPackageCmdSet" id="CloseLRUId" priority="0x0101" type="Button">
+        <Parent guid="guidTabCleanerPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic2" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Close least recently used documents</ButtonText>
+        </Strings>
+      </Button>-->
+      </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
     <Bitmaps>
@@ -72,14 +81,16 @@
     </Bitmaps>
   </Commands>
 
+  
   <Symbols>
     <!-- This is the package guid. -->
-    <GuidSymbol name="guidCloseExternalPackage" value="{c4a00f92-744c-40b4-a889-ef3baafd10b0}" />
+    <GuidSymbol name="guidTabCleanerPackage" value="{c4a00f92-744c-40b4-a889-ef3baafd10b0}" />
 
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="guidCloseExternalPackageCmdSet" value="{914e0122-bbe2-4687-bf51-8f4997603c42}">
+    <GuidSymbol name="guidTabCleanerPackageCmdSet" value="{914e0122-bbe2-4687-bf51-8f4997603c42}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="CloseExternalId" value="0x0100" />
+      <IDSymbol name="CloseLRUId" value="0x0101"/>
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{abe4931c-c380-4c71-bb11-a840f92adea4}" >

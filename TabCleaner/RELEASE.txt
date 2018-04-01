@@ -1,3 +1,7 @@
 ﻿First release.
 Crawls through all open projects in the solution and closing files that are not local to these directories. 
 The LRU tab closing is not implemented yet and will follow next.
+
+v1.1
+Moved the Close External Documents option to the tab context menu.
+Small bug fix which would sometimes close unnecessary documents due to a mismatch between lower/upper case.
